@@ -1,17 +1,32 @@
 package com.base.software_for_mobile_devices_project;
 
+import android.content.ContentValues;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextClock;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private static final String TAG = "=== TransactionListAdapter ===";
+
+    private List<Transaction> transactions;
+    private List<Transaction> filteredTransactions = new ArrayList<>();
+
+    TransactionListAdapter(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
 
     public Filter getFilter() {
         return null;
@@ -26,23 +41,40 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: init");
         final ViewHolder viewHolder = (ViewHolder) holder;
-        // TODO: set values for variables
+        viewHolder.description.setText(transactions.get(position).getDescription());
+        viewHolder.date.setText(transactions.get(position).getDate());
+        viewHolder.amount.setText((Double.toString(transactions.get(position).getAmount())));
+        viewHolder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: pos: " + position);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return transactions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // TODO: init variables
 
+        TextView description;
+        TextView date;
+        TextView amount;
+        Button button;
+
         ViewHolder(View itemView) {
             super(itemView);
-            // TODO: findViewById
+            description = itemView.findViewById(R.id.description_item_transaction_list);
+            date = itemView.findViewById(R.id.date_item_transaction_list);
+            amount = itemView.findViewById(R.id.amount_item_transaction_list);
+            button = itemView.findViewById(R.id.button_item_transaction_list);
         }
     }
 

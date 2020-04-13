@@ -1,9 +1,12 @@
 package com.base.software_for_mobile_devices_project;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction implements Serializable,Persistable {
@@ -13,23 +16,36 @@ public class Transaction implements Serializable,Persistable {
     private double amount;
     private String description;
 
-    public Date getDate() {
-        return date;
+    Transaction(String date, double amount, String description) throws ParseException {
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        this.date = sdf.parse(date);
+        this.amount = amount;
+        this.description = description;
+    }
+
+    String getDate() {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        return sdf.format(date);
     }
 
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public double getAmount() {
+    double getAmount() {
         return amount;
     }
+
+//    public String getAmountString() {
+//        return Double.toString(amount);
+//    }
 
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 
