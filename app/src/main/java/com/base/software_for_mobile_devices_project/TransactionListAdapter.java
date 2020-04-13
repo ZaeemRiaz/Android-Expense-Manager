@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
-    private static final String TAG = "TransactionListAdapter";
+    private static final String TAG = "=== TransactionListAdapter ===";
 
     public Filter getFilter() {
         return null;
@@ -22,8 +22,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: init");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transaction_list, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         // TODO: init variables
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             // TODO: findViewById
         }

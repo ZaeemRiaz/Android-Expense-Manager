@@ -18,14 +18,15 @@ public class TransactionListActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: init");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_list);
+        initRecyclerView();
     }
 
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init");
-        // TODO: fix this line RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.recyclerview_transaction_list);
         adapter = new TransactionListAdapter();
-        // recyclerView.setAdapter(adapter);
-        // recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 }
