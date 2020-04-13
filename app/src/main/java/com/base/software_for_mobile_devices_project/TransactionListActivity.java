@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class TransactionListActivity extends AppCompatActivity {
 
-    private static final String TAG = "TransactionListActivity";
+    private static final String TAG = "=== TransactionListActivity ===";
 
     private TransactionListAdapter adapter;
 
