@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 public class TransactionListActivity extends AppCompatActivity {
 
@@ -29,4 +30,7 @@ public class TransactionListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    public void test(View view) {
+        Log.i(TAG, "test: init");
+    }
 }
