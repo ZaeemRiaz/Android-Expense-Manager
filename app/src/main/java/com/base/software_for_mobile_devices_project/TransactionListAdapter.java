@@ -1,6 +1,7 @@
 package com.base.software_for_mobile_devices_project;
 
 import android.content.ContentValues;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,12 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         viewHolder.description.setText(transactions.get(position).getDescription());
         viewHolder.date.setText(transactions.get(position).getDate());
         viewHolder.amount.setText((Double.toString(transactions.get(position).getAmount())));
+        if (transactions.get(position).getAmount() >= 0) {
+            viewHolder.amount.setTextColor(Color.rgb(0,100,0));
+        }
+        else {
+            viewHolder.amount.setTextColor(Color.rgb(100,0,0));
+        }
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
