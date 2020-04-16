@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">Software-for-Mobile-Devices-Project</string>
-    <string name="description">Description</string>
-    <string name="date">13 04 2020</string>
-    <string name="amount">1,000</string>
+    <string name="app_name">Expense Manager</string>
     <string name="tab_expenses">Expenses</string>
     <string name="tab_income">Income</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +55,9 @@ public class TransactionListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void test(View view) {
-        Log.i(TAG, "test: init");
+    public void onAddTransaction(View view) {
+        Log.i(TAG, "onAddTransaction: init");
+        Intent intent = new Intent(getApplicationContext(),TransactionAddEditActivity.class);
+        startActivity(intent);
     }
 }
