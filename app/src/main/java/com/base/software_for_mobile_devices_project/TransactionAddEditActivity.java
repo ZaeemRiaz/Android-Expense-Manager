@@ -13,7 +13,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: init");
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout);
+        setContentView(R.layout.activity_transaction_add_edit);
 
     }
 
