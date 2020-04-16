@@ -37,10 +37,6 @@ public class Transaction implements Serializable,Persistable {
         return amount;
     }
 
-//    public String getAmountString() {
-//        return Double.toString(amount);
-//    }
-
     public void setAmount(double amount) {
         this.amount = amount;
     }
