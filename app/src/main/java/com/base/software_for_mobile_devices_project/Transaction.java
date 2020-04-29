@@ -3,6 +3,7 @@ package com.base.software_for_mobile_devices_project;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -12,20 +13,30 @@ import java.util.Date;
 public class Transaction implements Serializable,Persistable {
     private static final String TAG = "=== Transaction ===";
 
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private Date date;
     private double amount;
     private String description;
 
     Transaction(String date, double amount, String description) throws ParseException {
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         this.date = sdf.parse(date);
         this.amount = amount;
         this.description = description;
     }
 
     String getDate() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return sdf.format(date);
     }
 
@@ -51,12 +62,12 @@ public class Transaction implements Serializable,Persistable {
 
     @Override
     public void save(SQLiteDatabase dataStore, String date) {
-
+        Log.d(TAG, "save: init");
     }
 
     @Override
     public void load(Cursor dataStore) {
-
+        Log.d(TAG, "load: init");
     }
 
     @Override
