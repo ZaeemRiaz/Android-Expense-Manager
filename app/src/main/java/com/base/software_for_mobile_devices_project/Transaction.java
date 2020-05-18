@@ -24,8 +24,6 @@ public class Transaction implements Serializable, Persistable {
         this.date = sdf.parse(date);
         this.amount = amount;
         this.description = description;
-
-        Log.d(TAG, "Transaction: date:" + date + ", " + this.date.toString() + ", " + sdf.format(this.date));
     }
 
     public int getId() {

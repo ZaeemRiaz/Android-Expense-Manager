@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Expense Manager</string>
-    <string name="tab_expenses">Expenses</string>
+    <string name="tab_expense">Expense</string>
     <string name="tab_income">Income</string>
+    <string name="income_fragment">Income Fragment</string>
+    <string name="expense_fragment">Expense Fragment</string>
 </resources>
