@@ -16,7 +16,7 @@ import java.util.List;
 public class TransactionListActivity extends AppCompatActivity {
 
     private static final String TAG = "=== TransactionListActivity ===";
-    List<Transaction> transactions = new ArrayList<>();
+    private List<Transaction> transactions = new ArrayList<>();
     private TransactionListAdapter adapter;
 
     @Override

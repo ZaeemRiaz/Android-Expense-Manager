@@ -12,14 +12,18 @@ import java.util.Date;
 
 public class Transaction implements Serializable, Persistable {
     private static final String TAG = "=== Transaction ===";
-
     private int id;
     private Date date;
     private double amount;
     private String description;
 
-    Transaction(String date, double amount, String description) throws ParseException {
+    Transaction(Date date, double amount, String description) {
+        this.date = date;
+        this.amount = amount;
+        this.description = description;
+    }
 
+    Transaction(String date, double amount, String description) throws ParseException {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         this.date = sdf.parse(date);
         this.amount = amount;
@@ -34,18 +38,32 @@ public class Transaction implements Serializable, Persistable {
         this.id = id;
     }
 
-    String getDate() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        return sdf.format(date);
+    Date getDate() {
+        return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
     }
 
+    String getDate(String format) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(format);
+        return sdf.format(date);
+    }
+
     String getDateDisplay() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         return sdf.format(date);
+    }
+
+    public void setDate(String date, String format) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            this.date = sdf.parse(date);
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
     }
 
     double getAmount() {
