@@ -4,11 +4,9 @@
     <string name="tab_income">Income</string>
     <string name="income_fragment">Income Fragment</string>
     <string name="expense_fragment">Expense Fragment</string>
-    <string name="_10_02_2020">10-02-2020</string>
     <string name="date">Date:</string>
     <string name="time">Time:</string>
     <string name="amount">Amount:</string>
     <string name="description">Description:</string>
     <string name="save">Save</string>
-    <string name="_2_30_pm">2:30 pm</string>
 </resources>

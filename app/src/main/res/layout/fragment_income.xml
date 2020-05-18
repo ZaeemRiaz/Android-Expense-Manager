@@ -29,13 +29,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_weight="1"
-            android:text="@string/_10_02_2020"
+            android:text="10-10-2020"
             android:textSize="18sp" />
 
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_edit_black_24dp" />
+            android:onClick="openDatePickerDialog"
+            android:src="@drawable/ic_edit_black_24dp"
+            tools:ignore="OnClick" />
     </LinearLayout>
 
     <LinearLayout
@@ -66,7 +68,9 @@
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_edit_black_24dp" />
+            android:onClick="openTimePickerDialog"
+            android:src="@drawable/ic_edit_black_24dp"
+            tools:ignore="OnClick" />
     </LinearLayout>
 
     <LinearLayout
