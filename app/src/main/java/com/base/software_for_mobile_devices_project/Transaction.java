@@ -10,19 +10,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Transaction implements Serializable,Persistable {
+public class Transaction implements Serializable, Persistable {
     private static final String TAG = "=== Transaction ===";
 
     private int id;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     private Date date;
     private double amount;
     private String description;
@@ -33,6 +24,14 @@ public class Transaction implements Serializable,Persistable {
         this.date = sdf.parse(date);
         this.amount = amount;
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     String getDate() {
