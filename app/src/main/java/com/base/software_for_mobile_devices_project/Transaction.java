@@ -1,6 +1,7 @@
 package com.base.software_for_mobile_devices_project;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -80,11 +81,29 @@ public class Transaction implements Serializable, Persistable {
     @Override
     public void save(SQLiteDatabase dataStore) {
         Log.d(TAG, "save: init");
+        ContentValues values = new ContentValues();
+        values.put(TransactionDbHelper.id, id);
+        values.put(TransactionDbHelper.date, getDate("yyyy-MM-dd hh:mm:ss"));
+        values.put(TransactionDbHelper.amount, amount);
+        values.put(TransactionDbHelper.description, description);
+
+        dataStore.insertWithOnConflict(TransactionDbHelper.transaction, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     @Override
     public void load(Cursor dataStore) {
         Log.d(TAG, "load: init");
+        id = dataStore.getInt(dataStore.getColumnIndex(TransactionDbHelper.id));
+        setDate(dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.date)), "yyyy-MM-dd hh:mm:ss");
+        // TODO: 19/05/2020 change amount get type
+        amount = dataStore.getInt(dataStore.getColumnIndex(TransactionDbHelper.amount));
+        description = dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.description));
+    }
+
+    public void delete(SQLiteDatabase dataStore) {
+        String[] args = new String[1];
+        args[0] = String.valueOf(id);
+        dataStore.delete(TransactionDbHelper.transaction, TransactionDbHelper.id + " = ?", args);
     }
 
     @Override

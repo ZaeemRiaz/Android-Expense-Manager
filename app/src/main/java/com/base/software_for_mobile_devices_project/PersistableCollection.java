@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class PersistableCollection<T extends Persistable> extends AbstractCollection {
-    private static final String TAG = " ===== RecyclerViewAdapter ===== ";
+    private static final String TAG = "=== PersistableCollection ===";
     private Collection<T> collection;
 
     public PersistableCollection(Collection<T> collection) {
@@ -45,7 +45,7 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
         TransactionDbHelper dbHelper = new TransactionDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        //TODO: convert to normal query and check if needed or not
+        // TODO: 19/05/2020: convert to normal query and check if needed or not
         //check if table empty
         Cursor cur = db.rawQuery("SELECT COUNT(*) FROM " + TransactionDbHelper.transaction, null);
         if (cur != null) {
@@ -56,7 +56,7 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
             }
         }
 
-        //TODO: convert to normal query
+        // TODO: 19/05/2020: convert to normal query
         //load table to collection
         collection.clear();
         String query = "SELECT * FROM " + TransactionDbHelper.transaction;
