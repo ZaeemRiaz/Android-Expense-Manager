@@ -19,9 +19,9 @@ public class TransactionPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Income";
-            case 1:
                 return "Expense";
+            case 1:
+                return "Income";
             default:
                 return super.getPageTitle(position);
         }
@@ -32,9 +32,9 @@ public class TransactionPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new IncomeFragment();
-            case 1:
                 return new ExpenseFragment();
+            case 1:
+                return new IncomeFragment();
             default:
                 return null;
         }
