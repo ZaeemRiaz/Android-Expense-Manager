@@ -1,27 +1,35 @@
 package com.base.software_for_mobile_devices_project;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class TransactionPagerAdapter extends FragmentStateAdapter {
+public class TransactionPagerAdapter extends FragmentStatePagerAdapter {
     private int noOfTabs;
 
-    public TransactionPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, int noOfTabs) {
-        super(fragmentManager, lifecycle);
+    public TransactionPagerAdapter(@NonNull FragmentManager fragmentManager, int noOfTabs) {
+        super(fragmentManager);
         this.noOfTabs = noOfTabs;
     }
 
-    public TransactionPagerAdapter(@NonNull Fragment fragment, int noOfTabs) {
-        super(fragment);
-        this.noOfTabs = noOfTabs;
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position) {
+            case 0:
+                return "Income";
+            case 1:
+                return "Expense";
+            default:
+                return super.getPageTitle(position);
+        }
     }
 
     @NonNull
     @Override
-    public Fragment createFragment(int position) {
+    public Fragment getItem(int position) {
         switch (position) {
             case 0:
                 return new IncomeFragment();
@@ -33,7 +41,9 @@ public class TransactionPagerAdapter extends FragmentStateAdapter {
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return noOfTabs;
     }
+
+
 }
