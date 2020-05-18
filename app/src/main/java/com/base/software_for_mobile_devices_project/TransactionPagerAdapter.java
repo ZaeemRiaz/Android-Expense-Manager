@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 public class TransactionPagerAdapter extends FragmentStatePagerAdapter {
     private int noOfTabs;
 
-    public TransactionPagerAdapter(@NonNull FragmentManager fragmentManager, int noOfTabs) {
+    TransactionPagerAdapter(@NonNull FragmentManager fragmentManager, int noOfTabs) {
         super(fragmentManager);
         this.noOfTabs = noOfTabs;
     }

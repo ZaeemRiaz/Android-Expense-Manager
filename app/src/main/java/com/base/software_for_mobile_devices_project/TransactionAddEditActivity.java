@@ -21,8 +21,6 @@ import java.util.Date;
 public class TransactionAddEditActivity extends AppCompatActivity {
 
     private static final String TAG = "=== TransactionAddEditActivity ===";
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
     private Transaction currentTransaction;
     private final TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
@@ -54,8 +52,8 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_transaction_add_edit);
 
-        viewPager = findViewById(R.id.pager);
-        tabLayout = findViewById(R.id.tabs);
+        ViewPager viewPager = findViewById(R.id.pager);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
         TransactionPagerAdapter transactionPagerAdapter = new TransactionPagerAdapter(
                 getSupportFragmentManager(), tabLayout.getTabCount());
@@ -68,7 +66,78 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         Date date = calendar.getTime();
         currentTransaction = new Transaction(date, 0, "");
 
-        updateView();
+//        EditText amountExpense = findViewById(R.id.amount_edit_text_expense);
+//        EditText amountIncome = findViewById(R.id.amount_edit_text_income);
+//        EditText descriptionExpense = findViewById(R.id.description_edit_text_expense);
+//        EditText descriptionIncome = findViewById(R.id.description_edit_text_income);
+//
+//        amountExpense.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                //do nothing
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                currentTransaction.setAmount(Double.parseDouble(s.toString()));
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                updateView();
+//            }
+//        });
+//        amountIncome.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                //do nothing
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                currentTransaction.setAmount(Double.parseDouble(s.toString()));
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                updateView();
+//            }
+//        });
+//        descriptionExpense.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                //do nothing
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                currentTransaction.setDescription(s.toString());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                updateView();
+//            }
+//        });
+//        descriptionIncome.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                //do nothing
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                currentTransaction.setDescription(s.toString());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                updateView();
+//            }
+//        });
+//
+//        updateView();
+
     }
 
     public void openDatePickerDialog(View view) {
