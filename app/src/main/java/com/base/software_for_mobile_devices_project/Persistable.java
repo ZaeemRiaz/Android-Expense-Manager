@@ -4,7 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public interface Persistable {
-    void save(SQLiteDatabase dataStore, String date);
+    void save(SQLiteDatabase dataStore);
 
     void load(Cursor dataStore);
 

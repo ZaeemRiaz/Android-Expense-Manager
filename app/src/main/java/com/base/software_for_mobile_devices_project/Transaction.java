@@ -78,7 +78,7 @@ public class Transaction implements Serializable, Persistable {
     }
 
     @Override
-    public void save(SQLiteDatabase dataStore, String date) {
+    public void save(SQLiteDatabase dataStore) {
         Log.d(TAG, "save: init");
     }
 
