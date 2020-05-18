@@ -24,7 +24,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/date_text_view"
+            android:id="@+id/date_text_view_expense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -57,7 +57,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/date_text_view2"
+            android:id="@+id/time_text_view_expense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -90,6 +90,7 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/amount_edit_text_expense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -113,6 +114,7 @@
             android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/description_edit_text_expense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
