@@ -33,18 +33,17 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder: init");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transaction_list, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: init");
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.description.setText(transactions.get(position).getDescription());
-        viewHolder.date.setText(transactions.get(position).getDateDisplay());
+        viewHolder.date.setText(transactions.get(position).getDate("dd-MM-yyyy hh:mm:ss"));
         viewHolder.amount.setText((Double.toString(transactions.get(position).getAmount())));
+
         if (transactions.get(position).getAmount() >= 0) {
             viewHolder.amount.setTextColor(Color.rgb(0, 100, 0));
         } else {
@@ -53,7 +52,6 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: pos: " + position);
                 notifyDataSetChanged();
             }
         });

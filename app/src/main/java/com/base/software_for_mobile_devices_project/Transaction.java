@@ -51,11 +51,6 @@ public class Transaction implements Serializable, Persistable {
         return sdf.format(date);
     }
 
-    String getDateDisplay() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-        return sdf.format(date);
-    }
-
     public void setDate(String date, String format) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
