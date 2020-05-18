@@ -1,6 +1,5 @@
 package com.base.software_for_mobile_devices_project;
 
-import android.content.ContentValues;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,14 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
@@ -46,13 +43,12 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         Log.d(TAG, "onBindViewHolder: init");
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.description.setText(transactions.get(position).getDescription());
-        viewHolder.date.setText(transactions.get(position).getDate());
+        viewHolder.date.setText(transactions.get(position).getDateDisplay());
         viewHolder.amount.setText((Double.toString(transactions.get(position).getAmount())));
         if (transactions.get(position).getAmount() >= 0) {
-            viewHolder.amount.setTextColor(Color.rgb(0,100,0));
-        }
-        else {
-            viewHolder.amount.setTextColor(Color.rgb(100,0,0));
+            viewHolder.amount.setTextColor(Color.rgb(0, 100, 0));
+        } else {
+            viewHolder.amount.setTextColor(Color.rgb(100, 0, 0));
         }
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override

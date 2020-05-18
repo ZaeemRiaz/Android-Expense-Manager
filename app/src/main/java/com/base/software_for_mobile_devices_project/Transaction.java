@@ -24,6 +24,8 @@ public class Transaction implements Serializable, Persistable {
         this.date = sdf.parse(date);
         this.amount = amount;
         this.description = description;
+
+        Log.d(TAG, "Transaction: date:" + date + ", " + this.date.toString() + ", " + sdf.format(this.date));
     }
 
     public int getId() {
@@ -36,6 +38,11 @@ public class Transaction implements Serializable, Persistable {
 
     String getDate() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return sdf.format(date);
+    }
+
+    String getDateDisplay() {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         return sdf.format(date);
     }
 

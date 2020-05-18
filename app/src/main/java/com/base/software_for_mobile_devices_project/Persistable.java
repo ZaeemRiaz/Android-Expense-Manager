@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 public interface Persistable {
     void save(SQLiteDatabase dataStore, String date);
+
     void load(Cursor dataStore);
+
     String getType();
 }
