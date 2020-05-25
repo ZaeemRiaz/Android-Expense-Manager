@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,26 +26,31 @@ public class TransactionListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_transaction_list);
 
-        initTransactions();
+//        initTransactions();
         initRecyclerView();
     }
 
-    private void initTransactions(){
+    private void initTransactions() {
 
-//        try {
-//            transactions.add(new Transaction("2020-04-01 11:12:13", 100, "first"));
-//            transactions.add(new Transaction("2021-04-02 11:12:14", -200, "second"));
-//            transactions.add(new Transaction("2022-04-03 11:12:15", 300, "third"));
-//            transactions.add(new Transaction("2023-04-04 11:12:16", -400, "fourth"));
-//            transactions.add(new Transaction("2024-04-05 11:12:17", 500, "fifth"));
-//            transactions.add(new Transaction("2025-04-06 11:12:18", -600, "sixth"));
-//            transactions.add(new Transaction("2026-04-07 11:12:19", 700, "seventh"));
-//            transactions.add(new Transaction("2027-04-08 11:12:20", 800, "eighth"));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            transactions.add(new Transaction("2020-04-01 11:12:13", 100, "first"));
+            transactions.add(new Transaction("2021-04-02 11:12:14", -200, "second"));
+            transactions.add(new Transaction("2022-04-03 11:12:15", 300, "third"));
+            transactions.add(new Transaction("2023-04-04 11:12:16", -400, "fourth"));
+            transactions.add(new Transaction("2024-04-05 11:12:17", 500, "fifth"));
+            transactions.add(new Transaction("2025-04-06 11:12:18", -600, "sixth"));
+            transactions.add(new Transaction("2026-04-07 11:12:19", 700, "seventh"));
+            transactions.add(new Transaction("2027-04-08 11:12:20", 800, "eighth"));
+        } catch (ParseException e) {
+            Log.w(TAG, "initTransactions: ", e);
+        }
 
-        transactions = new ArrayList<>();
+        PersistableCollection<Transaction> collection = new PersistableCollection<Transaction>(transactions, Transaction.class);
+        collection.save(getApplicationContext());
+    }
+
+    private void readTransactions() {
+        transactions.clear();
         PersistableCollection<Transaction> collection = new PersistableCollection<Transaction>(transactions, Transaction.class);
         collection.load(getApplicationContext());
     }
@@ -77,7 +81,7 @@ public class TransactionListActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(TAG, "onResume: init");
         super.onResume();
-        initTransactions();
+        readTransactions();
         adapter.notifyDataSetChanged();
     }
 }

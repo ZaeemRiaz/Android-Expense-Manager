@@ -21,6 +21,10 @@
             android:name=".TransactionAddEditActivity"
             android:parentActivityName=".TransactionListActivity" />
 
+        <provider
+            android:name="TransactionProvider"
+            android:authorities="com.smd_assignment1.transactionprovider"
+            android:exported="true" />
     </application>
 
 </manifest>

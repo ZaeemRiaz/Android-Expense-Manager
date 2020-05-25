@@ -16,13 +16,13 @@ import androidx.annotation.Nullable;
 
 public class TransactionProvider extends ContentProvider {
     private static final String TAG = "=== TransactionProvider ===";
-    private static final String PROVIDER_NAME = "com.smd_assignment1.attendanceprovider";
-    private static final String URL = "content://" + PROVIDER_NAME + "/attendance";
+    private static final String PROVIDER_NAME = "com.smd_assignment1.transactionprovider";
+    private static final String URL = "content://" + PROVIDER_NAME + "/transaction";
     static final Uri CONTENT_URI = Uri.parse(URL);
     private static UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        matcher.addURI("com.smd_assignment1.attendanceprovider", "attendance", 1);
+        matcher.addURI("com.smd_assignment1.transactionprovider", "transaction", 1);
     }
 
     private SQLiteDatabase db;

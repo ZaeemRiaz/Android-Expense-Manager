@@ -20,6 +20,7 @@ public class Transaction implements Serializable, Persistable {
     private String description;
 
     public Transaction() {
+        id = nextId++;
     }
 
     Transaction(Date date, double amount, String description) {
@@ -65,7 +66,7 @@ public class Transaction implements Serializable, Persistable {
             this.date = sdf.parse(date);
         } catch (ParseException e) {
 
-            e.printStackTrace();
+            Log.w(TAG, "setDate: ", e);
         }
     }
 
@@ -85,16 +86,26 @@ public class Transaction implements Serializable, Persistable {
         this.description = description;
     }
 
-    @Override
-    public void save(SQLiteDatabase dataStore) {
-        Log.d(TAG, "save: init");
+    public ContentValues getContentValues(){
         ContentValues values = new ContentValues();
         values.put(TransactionDbHelper.id, id);
         values.put(TransactionDbHelper.date, getDate("yyyy-MM-dd hh:mm:ss"));
         values.put(TransactionDbHelper.amount, amount);
         values.put(TransactionDbHelper.description, description);
 
-        dataStore.insertWithOnConflict(TransactionDbHelper.transaction, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+        return values;
+    }
+
+    @Override
+    public void save(SQLiteDatabase dataStore) {
+        Log.d(TAG, "save: init");
+//        ContentValues values = new ContentValues();
+//        values.put(TransactionDbHelper.id, id);
+//        values.put(TransactionDbHelper.date, getDate("yyyy-MM-dd hh:mm:ss"));
+//        values.put(TransactionDbHelper.amount, amount);
+//        values.put(TransactionDbHelper.description, description);
+
+        dataStore.insertWithOnConflict(TransactionDbHelper.transaction, null, getContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     @Override

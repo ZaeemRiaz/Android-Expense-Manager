@@ -160,6 +160,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
     }
 
     private void updateView() {
+        //TODO: removes text from EditText, priority of view or stored
         TextView expenseDateTextView = findViewById(R.id.date_text_view_expense);
         TextView expenseTimeTextView = findViewById(R.id.time_text_view_expense);
         EditText expenseAmountEditText = findViewById(R.id.amount_edit_text_expense);
@@ -170,12 +171,52 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         EditText incomeDescriptionEditText = findViewById(R.id.description_edit_text_income);
 
         expenseDateTextView.setText(currentTransaction.getDate("dd-MM-yyyy"));
-        incomeDateTextView.setText(currentTransaction.getDate("dd-MM-yyyy"));
         expenseTimeTextView.setText(currentTransaction.getDate("hh:mm"));
-        incomeTimeTextView.setText(currentTransaction.getDate("hh:mm"));
         expenseAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
-        incomeAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
         expenseDescriptionEditText.setText(currentTransaction.getDescription());
+        incomeDateTextView.setText(currentTransaction.getDate("dd-MM-yyyy"));
+        incomeTimeTextView.setText(currentTransaction.getDate("hh:mm"));
+        incomeAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
         incomeDescriptionEditText.setText(currentTransaction.getDescription());
+    }
+
+    public void saveExpenseTransactionButton(View view) {
+        Log.d(TAG, "saveExpenseTransactionButton: init");
+
+        EditText expenseAmountEditText = findViewById(R.id.amount_edit_text_expense);
+        EditText expenseDescriptionEditText = findViewById(R.id.description_edit_text_expense);
+
+        String text = expenseAmountEditText.getText().toString();
+        if (!text.isEmpty()) {
+            try {
+                currentTransaction.setAmount(Double.parseDouble(text));
+            } catch (Exception e) {
+                Log.w(TAG, "saveExpenseTransactionButton: ", e);
+            }
+        }
+        currentTransaction.setDescription(expenseDescriptionEditText.getText().toString());
+
+        getContentResolver().insert(
+                TransactionProvider.CONTENT_URI, currentTransaction.getContentValues());
+    }
+
+    public void saveIncomeTransactionButton(View view) {
+        Log.d(TAG, "saveIncomeTransactionButton: init");
+
+        EditText incomeAmountEditText = findViewById(R.id.amount_edit_text_income);
+        EditText incomeDescriptionEditText = findViewById(R.id.description_edit_text_income);
+
+        String text = incomeAmountEditText.getText().toString();
+        if (!text.isEmpty()) {
+            try {
+                currentTransaction.setAmount(Double.parseDouble(text));
+            } catch (Exception e) {
+                Log.w(TAG, "saveExpenseTransactionButton: ", e);
+            }
+        }
+        currentTransaction.setDescription(incomeDescriptionEditText.getText().toString());
+
+        getContentResolver().insert(
+                TransactionProvider.CONTENT_URI, currentTransaction.getContentValues());
     }
 }

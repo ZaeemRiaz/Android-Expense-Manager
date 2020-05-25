@@ -125,7 +125,9 @@
         android:id="@+id/save_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:onClick="saveIncomeTransactionButton"
         android:text="@string/save"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="OnClick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

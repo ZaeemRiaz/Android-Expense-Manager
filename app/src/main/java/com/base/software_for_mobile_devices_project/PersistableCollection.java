@@ -19,7 +19,6 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
     public PersistableCollection(Collection<T> collection, Class<T> tClass) {
         this.collection = collection;
         this.tClass = tClass;
-        Log.i(TAG, "PersistableCollection: size: " + collection.size());
     }
 
     @NonNull
@@ -34,11 +33,9 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
     }
 
     public void save(Context context) {
-        Log.d(TAG, "Save");
+        Log.d(TAG, "Save: collection size: " + collection.size());
         TransactionDbHelper dbHelper = new TransactionDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        Log.i(TAG, "save: collection size: " + collection.size());
 
         for (T t : collection) {
             ((Persistable) t).save(db);
@@ -79,8 +76,8 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
 //            Class c = Class.forName(type);
             Class c = clazz;
             return (T) c.newInstance();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            Log.w(TAG, "getObject: ", e);
             return null;
         }
     }
