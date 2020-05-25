@@ -20,7 +20,7 @@ public class Transaction implements Serializable, Persistable {
     private String description;
 
     public Transaction() {
-        id = nextId++;
+//        id = nextId++;
     }
 
     Transaction(Date date, double amount, String description) {
@@ -86,7 +86,7 @@ public class Transaction implements Serializable, Persistable {
         this.description = description;
     }
 
-    public ContentValues getContentValues(){
+    public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
         values.put(TransactionDbHelper.id, id);
         values.put(TransactionDbHelper.date, getDate("yyyy-MM-dd hh:mm:ss"));
@@ -110,6 +110,11 @@ public class Transaction implements Serializable, Persistable {
         setDate(dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.date)), "yyyy-MM-dd hh:mm:ss");
         amount = dataStore.getDouble(dataStore.getColumnIndex(TransactionDbHelper.amount));
         description = dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.description));
+
+        //update next id
+        if (nextId <= id) {
+            nextId = id + 1;
+        }
     }
 
     public void delete(SQLiteDatabase dataStore) {

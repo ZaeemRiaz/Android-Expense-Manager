@@ -9,6 +9,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -189,7 +190,9 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         String text = expenseAmountEditText.getText().toString();
         if (!text.isEmpty()) {
             try {
-                currentTransaction.setAmount(Double.parseDouble(text));
+                Double val = Double.parseDouble(text);
+                val *= -1;
+                currentTransaction.setAmount(val);
             } catch (Exception e) {
                 Log.w(TAG, "saveExpenseTransactionButton: ", e);
             }
@@ -198,6 +201,10 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 
         getContentResolver().insert(
                 TransactionProvider.CONTENT_URI, currentTransaction.getContentValues());
+
+        Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
+
+        finish();
     }
 
     public void saveIncomeTransactionButton(View view) {
@@ -218,5 +225,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 
         getContentResolver().insert(
                 TransactionProvider.CONTENT_URI, currentTransaction.getContentValues());
+
+        Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
     }
 }
