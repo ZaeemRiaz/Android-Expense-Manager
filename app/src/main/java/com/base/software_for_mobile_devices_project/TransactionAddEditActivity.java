@@ -163,21 +163,21 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         //TODO: removes text from EditText, priority of view or stored
         TextView expenseDateTextView = findViewById(R.id.date_text_view_expense);
         TextView expenseTimeTextView = findViewById(R.id.time_text_view_expense);
-        EditText expenseAmountEditText = findViewById(R.id.amount_edit_text_expense);
-        EditText expenseDescriptionEditText = findViewById(R.id.description_edit_text_expense);
+//        EditText expenseAmountEditText = findViewById(R.id.amount_edit_text_expense);
+//        EditText expenseDescriptionEditText = findViewById(R.id.description_edit_text_expense);
         TextView incomeDateTextView = findViewById(R.id.date_text_view_income);
         TextView incomeTimeTextView = findViewById(R.id.time_text_view_income);
-        EditText incomeAmountEditText = findViewById(R.id.amount_edit_text_income);
-        EditText incomeDescriptionEditText = findViewById(R.id.description_edit_text_income);
+//        EditText incomeAmountEditText = findViewById(R.id.amount_edit_text_income);
+//        EditText incomeDescriptionEditText = findViewById(R.id.description_edit_text_income);
 
         expenseDateTextView.setText(currentTransaction.getDate("dd-MM-yyyy"));
         expenseTimeTextView.setText(currentTransaction.getDate("hh:mm"));
-        expenseAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
-        expenseDescriptionEditText.setText(currentTransaction.getDescription());
+//        expenseAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
+//        expenseDescriptionEditText.setText(currentTransaction.getDescription());
         incomeDateTextView.setText(currentTransaction.getDate("dd-MM-yyyy"));
         incomeTimeTextView.setText(currentTransaction.getDate("hh:mm"));
-        incomeAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
-        incomeDescriptionEditText.setText(currentTransaction.getDescription());
+//        incomeAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
+//        incomeDescriptionEditText.setText(currentTransaction.getDescription());
     }
 
     public void saveExpenseTransactionButton(View view) {

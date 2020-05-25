@@ -21,13 +21,12 @@ public class TransactionDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // TODO: 19/05/2020: table columns types
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE " + transaction + "(" +
                 id + " INTEGER, " +
                 date + " TEXT, " +
-                amount + " INTEGER, " +
+                amount + " REAL, " +
                 description + " TEXT," +
                 "PRIMARY KEY (" + id + "))";
         Log.i(TAG, "onCreate: sql:" + sql);

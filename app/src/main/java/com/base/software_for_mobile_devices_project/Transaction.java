@@ -99,11 +99,6 @@ public class Transaction implements Serializable, Persistable {
     @Override
     public void save(SQLiteDatabase dataStore) {
         Log.d(TAG, "save: init");
-//        ContentValues values = new ContentValues();
-//        values.put(TransactionDbHelper.id, id);
-//        values.put(TransactionDbHelper.date, getDate("yyyy-MM-dd hh:mm:ss"));
-//        values.put(TransactionDbHelper.amount, amount);
-//        values.put(TransactionDbHelper.description, description);
 
         dataStore.insertWithOnConflict(TransactionDbHelper.transaction, null, getContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
     }
@@ -113,8 +108,7 @@ public class Transaction implements Serializable, Persistable {
         Log.d(TAG, "load: init");
         id = dataStore.getInt(dataStore.getColumnIndex(TransactionDbHelper.id));
         setDate(dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.date)), "yyyy-MM-dd hh:mm:ss");
-        // TODO: 19/05/2020 change amount get type
-        amount = dataStore.getInt(dataStore.getColumnIndex(TransactionDbHelper.amount));
+        amount = dataStore.getDouble(dataStore.getColumnIndex(TransactionDbHelper.amount));
         description = dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.description));
     }
 

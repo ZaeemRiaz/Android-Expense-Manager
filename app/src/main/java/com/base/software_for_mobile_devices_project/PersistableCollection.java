@@ -47,7 +47,6 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
         TransactionDbHelper dbHelper = new TransactionDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        // TODO: 19/05/2020: convert to normal query and check if needed or not
         //check if table empty
         Cursor cur = db.rawQuery("SELECT COUNT(*) FROM " + TransactionDbHelper.transaction, null);
         if (cur != null) {
@@ -58,10 +57,9 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
             }
         }
 
-        // TODO: 19/05/2020: convert to normal query
         //load table to collection
         collection.clear();
-        String query = "SELECT * FROM " + TransactionDbHelper.transaction;
+        String query = "SELECT * FROM " + TransactionDbHelper.transaction + " ORDER BY " + TransactionDbHelper.date + " DESC";
         Cursor cursor = db.rawQuery(query, null);
 
         while (cursor.moveToNext()) {
@@ -71,6 +69,7 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
         }
 
     }
+
     private T getObject(Class clazz) {
         try {
 //            Class c = Class.forName(type);
