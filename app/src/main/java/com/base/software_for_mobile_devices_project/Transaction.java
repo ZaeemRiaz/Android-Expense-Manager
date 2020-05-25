@@ -13,19 +13,26 @@ import java.util.Date;
 
 public class Transaction implements Serializable, Persistable {
     private static final String TAG = "=== Transaction ===";
+    private static int nextId = 0;
     private int id;
     private Date date;
     private double amount;
     private String description;
 
+    public Transaction() {
+    }
+
     Transaction(Date date, double amount, String description) {
+        id = nextId++;
         this.date = date;
         this.amount = amount;
+
         this.description = description;
     }
 
     Transaction(String date, double amount, String description) throws ParseException {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        id = nextId++;
         this.date = sdf.parse(date);
         this.amount = amount;
         this.description = description;

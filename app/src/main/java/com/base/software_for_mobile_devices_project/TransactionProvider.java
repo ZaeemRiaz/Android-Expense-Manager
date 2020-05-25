@@ -37,11 +37,11 @@ public class TransactionProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        Log.i(TAG, "query");
+        Log.d(TAG, "query");
         if (matcher.match(uri) == 1) {
             return db.query(TransactionDbHelper.transaction, projection, selection, selectionArgs, null, null, sortOrder);
         }
-        Log.i(TAG, "No match");
+        Log.d(TAG, "No match");
         String[] cols = {"_ID"};
         return new MatrixCursor(cols);
     }
@@ -55,7 +55,7 @@ public class TransactionProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        Log.i(TAG, "insert");
+        Log.d(TAG, "insert");
         long rowId = 0;
         if (matcher.match(uri) == 1) {
             rowId = db.insertWithOnConflict(TransactionDbHelper.transaction, "", values, SQLiteDatabase.CONFLICT_IGNORE);
@@ -72,7 +72,7 @@ public class TransactionProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        Log.i(TAG, "delete");
+        Log.d(TAG, "delete");
         int count = 0;
         if (matcher.match(uri) == 1) {
             count = db.delete(TransactionDbHelper.transaction, selection, selectionArgs);
@@ -84,7 +84,7 @@ public class TransactionProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        Log.i(TAG, "update");
+        Log.d(TAG, "update");
         int count = 0;
         if (matcher.match(uri) == 1) {
             count = db.update(TransactionDbHelper.transaction, values, selection, selectionArgs);

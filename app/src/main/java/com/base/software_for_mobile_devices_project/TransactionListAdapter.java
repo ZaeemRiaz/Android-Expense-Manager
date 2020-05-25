@@ -42,7 +42,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.description.setText(transactions.get(position).getDescription());
         viewHolder.date.setText(transactions.get(position).getDate("dd-MM-yyyy hh:mm:ss"));
-        viewHolder.amount.setText((Double.toString(transactions.get(position).getAmount())));
+        viewHolder.amount.setText(String.valueOf(transactions.get(position).getAmount()));
 
         if (transactions.get(position).getAmount() >= 0) {
             viewHolder.amount.setTextColor(Color.rgb(0, 100, 0));
@@ -78,5 +78,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             button = itemView.findViewById(R.id.button_item_transaction_list);
         }
     }
+
+
 
 }

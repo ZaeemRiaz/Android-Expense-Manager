@@ -14,9 +14,12 @@ import java.util.Iterator;
 public class PersistableCollection<T extends Persistable> extends AbstractCollection {
     private static final String TAG = "=== PersistableCollection ===";
     private Collection<T> collection;
+    private Class<T> tClass;
 
-    public PersistableCollection(Collection<T> collection) {
+    public PersistableCollection(Collection<T> collection, Class<T> tClass) {
         this.collection = collection;
+        this.tClass = tClass;
+        Log.i(TAG, "PersistableCollection: size: " + collection.size());
     }
 
     @NonNull
@@ -31,9 +34,11 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
     }
 
     public void save(Context context) {
-        Log.i(TAG, "Save");
+        Log.d(TAG, "Save");
         TransactionDbHelper dbHelper = new TransactionDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Log.i(TAG, "save: collection size: " + collection.size());
 
         for (T t : collection) {
             ((Persistable) t).save(db);
@@ -41,7 +46,7 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
     }
 
     public void load(Context context) {
-        Log.i(TAG, "Load");
+        Log.d(TAG, "Load");
         TransactionDbHelper dbHelper = new TransactionDbHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -51,7 +56,7 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
         if (cur != null) {
             cur.moveToFirst();                       // Always one row returned.
             if (cur.getInt(0) == 0) {               // Zero count means empty table.
-                Log.i(TAG, "Table Empty");
+                Log.d(TAG, "Table Empty");
                 return;
             }
         }
@@ -63,16 +68,16 @@ public class PersistableCollection<T extends Persistable> extends AbstractCollec
         Cursor cursor = db.rawQuery(query, null);
 
         while (cursor.moveToNext()) {
-            T object = getObject("com.base.software_for_mobile_devices_project.Transaction");
+            T object = getObject(Transaction.class);
             object.load(cursor);
             collection.add(object);
         }
 
     }
-
-    private T getObject(String type) {
+    private T getObject(Class clazz) {
         try {
-            Class c = Class.forName(type);
+//            Class c = Class.forName(type);
+            Class c = clazz;
             return (T) c.newInstance();
         } catch (Exception ex) {
             ex.printStackTrace();
