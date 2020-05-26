@@ -77,12 +77,13 @@ public class TransactionListActivity extends AppCompatActivity {
 //        initTransactions();
         initRecyclerView();
 
+        // Banner Ad
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        mAdView = findViewById(R.id.adView);
+        mAdView = findViewById(R.id.adView_transaction_list);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -116,7 +117,7 @@ public class TransactionListActivity extends AppCompatActivity {
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init");
         RecyclerView recyclerView = findViewById(R.id.recyclerview_transaction_list);
-        adapter = new TransactionListAdapter(transactions);
+        adapter = new TransactionListAdapter(getApplicationContext(), transactions);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

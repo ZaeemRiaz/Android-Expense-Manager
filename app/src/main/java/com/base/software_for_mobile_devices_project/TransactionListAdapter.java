@@ -1,5 +1,7 @@
 package com.base.software_for_mobile_devices_project;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +21,12 @@ import java.util.List;
 public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     private static final String TAG = "=== TransactionListAdapter ===";
 
+    private Context context;
     private List<Transaction> transactions;
     private List<Transaction> filteredTransactions = new ArrayList<>();
 
-    TransactionListAdapter(List<Transaction> transactions) {
+    TransactionListAdapter(Context context, List<Transaction> transactions) {
+        this.context = context;
         this.transactions = transactions;
     }
 
@@ -52,7 +56,10 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notifyDataSetChanged();
+                Intent intent = new Intent(context, TransactionViewActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("transactionIntent", transactions.get(position));
+                context.startActivity(intent);
             }
         });
     }

@@ -1,0 +1,2 @@
+<date="2020-05-23 13:02:03" amount="100.00" description="food"/>
+<date="2020-05-24 13:02:03" amount="200.00" description="food"/>

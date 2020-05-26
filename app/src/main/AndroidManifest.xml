@@ -20,8 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".TransactionAddEditActivity"
+            android:parentActivityName=".TransactionListActivity" />
+
+        <activity
+            android:name=".TransactionViewActivity"
             android:parentActivityName=".TransactionListActivity" />
 
         <provider
