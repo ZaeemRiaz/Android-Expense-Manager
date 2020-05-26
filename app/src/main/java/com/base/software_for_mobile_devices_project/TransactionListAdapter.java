@@ -57,8 +57,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, TransactionViewActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("transactionIntent", transactions.get(position));
+                intent.putExtra("transactionViewIntent", transactions.get(position));
                 context.startActivity(intent);
             }
         });

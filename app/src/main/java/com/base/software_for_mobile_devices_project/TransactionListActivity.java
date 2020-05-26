@@ -117,7 +117,7 @@ public class TransactionListActivity extends AppCompatActivity {
     private void initRecyclerView() {
         Log.d(TAG, "initRecyclerView: init");
         RecyclerView recyclerView = findViewById(R.id.recyclerview_transaction_list);
-        adapter = new TransactionListAdapter(getApplicationContext(), transactions);
+        adapter = new TransactionListAdapter(this, transactions);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
