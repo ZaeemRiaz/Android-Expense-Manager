@@ -3,8 +3,11 @@ package com.base.software_for_mobile_devices_project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,13 +65,13 @@ public class TransactionListActivity extends AppCompatActivity {
             Log.w(TAG, "initTransactions: ", e);
         }
 
-        PersistableCollection<Transaction> collection = new PersistableCollection<Transaction>(transactions, Transaction.class);
+        PersistableCollection<Transaction> collection = new PersistableCollection<>(transactions, Transaction.class);
         collection.save(getApplicationContext());
     }
 
     private void readTransactions() {
         transactions.clear();
-        PersistableCollection<Transaction> collection = new PersistableCollection<Transaction>(transactions, Transaction.class);
+        PersistableCollection<Transaction> collection = new PersistableCollection<>(transactions, Transaction.class);
         collection.load(getApplicationContext());
     }
 
@@ -80,12 +83,6 @@ public class TransactionListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void onAddTransaction(View view) {
-        Log.d(TAG, "onAddTransaction: init");
-        Intent intent = new Intent(getApplicationContext(), TransactionAddEditActivity.class);
-        startActivity(intent);
-    }
-
 //    @Override
 //    protected void onPause() {
 //        Log.d(TAG, "onPause: init");
@@ -93,6 +90,22 @@ public class TransactionListActivity extends AppCompatActivity {
 //        PersistableCollection<Transaction> collection = new PersistableCollection<Transaction>(transactions, Transaction.class);
 //        collection.save(getApplicationContext());
 //    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.transaction_list_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.add_transaction) {
+            Intent intent = new Intent(getApplicationContext(), TransactionAddEditActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onResume() {
