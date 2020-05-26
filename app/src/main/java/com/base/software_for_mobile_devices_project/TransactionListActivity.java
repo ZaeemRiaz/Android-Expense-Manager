@@ -144,7 +144,8 @@ public class TransactionListActivity extends AppCompatActivity {
         AlertDialog dialog;
         switch (item.getItemId()) {
             case R.id.add_transaction:
-                Intent intent = new Intent(getApplicationContext(), TransactionAddEditActivity.class);
+                Intent intent = new Intent(this, TransactionAddEditActivity.class);
+                intent.putExtra("editIntent", false);
                 startActivity(intent);
                 return true;
             case R.id.import_transactions:

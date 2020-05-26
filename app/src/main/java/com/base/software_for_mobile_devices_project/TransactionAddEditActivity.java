@@ -2,6 +2,7 @@ package com.base.software_for_mobile_devices_project;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,14 +28,14 @@ import java.util.Date;
 public class TransactionAddEditActivity extends AppCompatActivity {
 
     private static final String TAG = "=== TransactionAddEditActivity ===";
-    private Transaction currentTransaction;
+    private Transaction transaction;
     private final TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             String strTime = hourOfDay + ":" + minute + ":00";
-            String date = currentTransaction.getDate("dd-MM-yyyy");
+            String date = transaction.getDate("dd-MM-yyyy");
             date = date + " " + strTime;
-            currentTransaction.setDate(date, "dd-MM-yyyy hh:mm:ss");
+            transaction.setDate(date, "dd-MM-yyyy hh:mm:ss");
             Log.i(TAG, "onTimeSet: date: " + date);
             updateView();
         }
@@ -43,9 +44,9 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             String strDate = dayOfMonth + "-" + (month + 1) + "-" + year;
-            String date = currentTransaction.getDate("hh:mm:ss");
+            String date = transaction.getDate("hh:mm:ss");
             date = strDate + " " + date;
-            currentTransaction.setDate(date, "dd-MM-yyyy hh:mm:ss");
+            transaction.setDate(date, "dd-MM-yyyy hh:mm:ss");
             Log.i(TAG, "onDateSet: date: " + date);
             updateView();
         }
@@ -57,8 +58,25 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: init");
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+
+        // Add or Edit
+        Boolean edit = (Boolean) intent.getSerializableExtra("editIntent");
+        Log.i(TAG, "onCreate: edit: " + edit);
+        if (edit) {
+            transaction = (Transaction) intent.getSerializableExtra("transactionEditIntent");
+        } else {
+            // Get current Date
+            Calendar calendar = Calendar.getInstance();
+            Date date = calendar.getTime();
+
+            transaction = new Transaction(date, 0, "");
+        }
+        Log.i(TAG, "onCreate: transaction: " + transaction.getDate());
+
         setContentView(R.layout.activity_transaction_add_edit);
 
+        // setup fragments
         ViewPager viewPager = findViewById(R.id.pager);
         TabLayout tabLayout = findViewById(R.id.tabs);
 
@@ -68,10 +86,6 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         viewPager.setAdapter(transactionPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setupWithViewPager(viewPager);
-
-        Calendar calendar = Calendar.getInstance();
-        Date date = calendar.getTime();
-        currentTransaction = new Transaction(date, 0, "");
 
         // Banner Ad
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -97,7 +111,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 //
 //            @Override
 //            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                currentTransaction.setAmount(Double.parseDouble(s.toString()));
+//                transaction.setAmount(Double.parseDouble(s.toString()));
 //            }
 //
 //            @Override
@@ -113,7 +127,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 //
 //            @Override
 //            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                currentTransaction.setAmount(Double.parseDouble(s.toString()));
+//                transaction.setAmount(Double.parseDouble(s.toString()));
 //            }
 //
 //            @Override
@@ -129,7 +143,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 //
 //            @Override
 //            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                currentTransaction.setDescription(s.toString());
+//                transaction.setDescription(s.toString());
 //            }
 //
 //            @Override
@@ -145,7 +159,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 //
 //            @Override
 //            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                currentTransaction.setDescription(s.toString());
+//                transaction.setDescription(s.toString());
 //            }
 //
 //            @Override
@@ -188,14 +202,14 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 //        EditText incomeAmountEditText = findViewById(R.id.amount_edit_text_income);
 //        EditText incomeDescriptionEditText = findViewById(R.id.description_edit_text_income);
 
-        expenseDateTextView.setText(currentTransaction.getDate("dd-MM-yyyy"));
-        expenseTimeTextView.setText(currentTransaction.getDate("hh:mm"));
-//        expenseAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
-//        expenseDescriptionEditText.setText(currentTransaction.getDescription());
-        incomeDateTextView.setText(currentTransaction.getDate("dd-MM-yyyy"));
-        incomeTimeTextView.setText(currentTransaction.getDate("hh:mm"));
-//        incomeAmountEditText.setText(String.valueOf(currentTransaction.getAmount()));
-//        incomeDescriptionEditText.setText(currentTransaction.getDescription());
+        expenseDateTextView.setText(transaction.getDate("dd-MM-yyyy"));
+        expenseTimeTextView.setText(transaction.getDate("hh:mm"));
+//        expenseAmountEditText.setText(String.valueOf(transaction.getAmount()));
+//        expenseDescriptionEditText.setText(transaction.getDescription());
+        incomeDateTextView.setText(transaction.getDate("dd-MM-yyyy"));
+        incomeTimeTextView.setText(transaction.getDate("hh:mm"));
+//        incomeAmountEditText.setText(String.valueOf(transaction.getAmount()));
+//        incomeDescriptionEditText.setText(transaction.getDescription());
     }
 
     public void saveExpenseTransactionButton(View view) {
@@ -209,15 +223,15 @@ public class TransactionAddEditActivity extends AppCompatActivity {
             try {
                 Double val = Double.parseDouble(text);
                 val *= -1;
-                currentTransaction.setAmount(val);
+                transaction.setAmount(val);
             } catch (Exception e) {
                 Log.w(TAG, "saveExpenseTransactionButton: ", e);
             }
         }
-        currentTransaction.setDescription(expenseDescriptionEditText.getText().toString());
+        transaction.setDescription(expenseDescriptionEditText.getText().toString());
 
         getContentResolver().insert(
-                TransactionProvider.CONTENT_URI, currentTransaction.getContentValues());
+                TransactionProvider.CONTENT_URI, transaction.getContentValues());
 
         Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
 
@@ -233,15 +247,15 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         String text = incomeAmountEditText.getText().toString();
         if (!text.isEmpty()) {
             try {
-                currentTransaction.setAmount(Double.parseDouble(text));
+                transaction.setAmount(Double.parseDouble(text));
             } catch (Exception e) {
                 Log.w(TAG, "saveExpenseTransactionButton: ", e);
             }
         }
-        currentTransaction.setDescription(incomeDescriptionEditText.getText().toString());
+        transaction.setDescription(incomeDescriptionEditText.getText().toString());
 
         getContentResolver().insert(
-                TransactionProvider.CONTENT_URI, currentTransaction.getContentValues());
+                TransactionProvider.CONTENT_URI, transaction.getContentValues());
 
         Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
     }

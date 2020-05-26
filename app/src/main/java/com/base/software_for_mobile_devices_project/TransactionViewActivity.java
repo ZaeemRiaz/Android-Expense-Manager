@@ -64,6 +64,7 @@ public class TransactionViewActivity extends AppCompatActivity {
     public void editTransactionOnClick(View view) {
         Intent intent = new Intent(this, TransactionAddEditActivity.class);
         intent.putExtra("transactionEditIntent", transaction);
+        intent.putExtra("editIntent", true);
         startActivity(intent);
     }
 
