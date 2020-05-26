@@ -1,7 +1,6 @@
 package com.base.software_for_mobile_devices_project;
 
 import android.app.Service;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -17,7 +16,9 @@ import androidx.annotation.Nullable;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -58,6 +59,25 @@ public class DataSyncService extends Service {
         return ret;
     }
 
+    private String getTransactionsContent() {
+
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        PersistableCollection<Transaction> collection = new PersistableCollection<>(transactions, Transaction.class);
+        collection.load(this);
+
+        StringBuilder result = new StringBuilder();
+        for (Transaction transaction : transactions) {
+            result.append("<transaction date='")
+                    .append(transaction.getDate("yyyy-MM-dd hh:mm:ss"))
+                    .append("' amount='")
+                    .append(transaction.getAmount())
+                    .append("' description='")
+                    .append(transaction.getDescription())
+                    .append("'/>");
+        }
+        return "<transactions>" + result.toString() + "</transactions>";
+    }
+
     private class ImportTask extends AsyncTask<String, Void, Void> {
         ArrayList<Transaction> transactions;
 
@@ -93,8 +113,6 @@ public class DataSyncService extends Service {
 
         protected void onPostExecute(Void aVoid) {
             Log.d(TAG, "onPostExecute: import init");
-            ContentValues cv;
-
             if (!transactions.isEmpty()) {
                 for (Transaction transaction : transactions) {
                     try {
@@ -109,59 +127,57 @@ public class DataSyncService extends Service {
         }
     }
 
-//    private class ExportTask extends AsyncTask<String, Void, Void> {
-//        ArrayList<Student> students;
-//        String date;
-//        boolean success;
-//
-//        @Override
-//        protected Void doInBackground(String... strings) {
-//            Log.d(TAG, "doInBackground: export init");
-//            date = strings[0];
-//            try {
-//                URL url = new URL(strings[1]);
-//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                connection.setReadTimeout(10000);
-//                connection.setConnectTimeout(15000);
-//                connection.setRequestMethod("POST");
-//                connection.setRequestProperty("Content-type", "text/xml");
-//                connection.setDoOutput(true);
-//                connection.connect();
-//
-//                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
-//                writer.write(getAttendanceContent(date));
-//                writer.flush();
-//
-//                StringBuilder content = new StringBuilder();
-//                BufferedReader reader = new BufferedReader(
-//                        new InputStreamReader(connection.getInputStream()));
-//                String line = "";
-//                while ((line = reader.readLine()) != null) {
-//                    content.append(line);
-//                }
-//                Log.d(TAG, "doInBackground: Server Response: " + content.toString());
-//
-//                connection.disconnect();
-//                success = true;
-//            } catch (Exception ex) {
-//                success = false;
-//                ex.printStackTrace();
-//            }
-//
-//            return null;
-//        }
-//
-//        protected void onPostExecute(Void aVoid) {
-//            Log.d(TAG, "onPostExecute: export init");
-//            Toast toast;
-//            if (success) {
-//                toast = Toast.makeText(getApplicationContext(), "Export Successful.", Toast.LENGTH_SHORT);
-//            } else {
-//                toast = Toast.makeText(getApplicationContext(), "Export Not Successful.", Toast.LENGTH_SHORT);
-//            }
-//            toast.show();
-//        }
-//    }
+    private class ExportTask extends AsyncTask<String, Void, Void> {
+        ArrayList<Transaction> transactions;
+        boolean success;
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            Log.d(TAG, "doInBackground: export init");
+            try {
+                URL url = new URL(strings[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setReadTimeout(10000);
+                connection.setConnectTimeout(15000);
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-type", "text/xml");
+                connection.setDoOutput(true);
+                connection.connect();
+
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
+                writer.write(getTransactionsContent());
+                writer.flush();
+
+                StringBuilder content = new StringBuilder();
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(connection.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line);
+                }
+                Log.d(TAG, "doInBackground: Server Response: " + content.toString());
+
+                connection.disconnect();
+                success = true;
+            } catch (Exception ex) {
+                success = false;
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(Void aVoid) {
+            Log.d(TAG, "onPostExecute: export init");
+            Toast toast;
+            if (success) {
+                toast = Toast.makeText(getApplicationContext(), "Export Successful.", Toast.LENGTH_SHORT);
+            } else {
+                toast = Toast.makeText(getApplicationContext(), "Export Not Successful.", Toast.LENGTH_SHORT);
+            }
+            toast.show();
+        }
+    }
 
     public class IncomingHandler extends Handler {
 
@@ -175,7 +191,7 @@ public class DataSyncService extends Service {
                     break;
                 case 2:
                     Log.d(TAG, "exportProcessor: calling ExportTask");
-//                    new ExportTask().execute(url);
+                    new ExportTask().execute(url);
                     break;
             }
             super.handleMessage(message);

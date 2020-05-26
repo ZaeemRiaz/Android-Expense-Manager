@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
@@ -17,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -39,6 +42,7 @@ public class TransactionListActivity extends AppCompatActivity {
     private static final String TAG = "=== TransactionListActivity ===";
     private Messenger messenger;
     private boolean bound = false;
+    private boolean networkConnected = false;
     private List<Transaction> transactions = new ArrayList<>();
     private TransactionListAdapter adapter;
     private AdView mAdView;
@@ -71,11 +75,17 @@ public class TransactionListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: init");
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_transaction_list);
-
-//        initTransactions();
+        //initTransactions();
         initRecyclerView();
+
+        // Check internet connection when the activity starts
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = null;
+        if (cm != null) {
+            activeNetwork = cm.getActiveNetworkInfo();
+            networkConnected = activeNetwork != null && activeNetwork.isConnected();
+        }
 
         // Banner Ad
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -86,7 +96,6 @@ public class TransactionListActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adView_transaction_list);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-
     }
 
     private void initTransactions() {
@@ -149,62 +158,70 @@ public class TransactionListActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.import_transactions:
-                view = inflater.inflate(R.layout.import_transactions_dialog, null);
-                builder.setView(view);
-                builder.setPositiveButton("Import", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        EditText editText = view.findViewById(R.id.url_import_dialog);
-                        String url = editText.getText().toString();
+                if (networkConnected) {
+                    view = inflater.inflate(R.layout.import_transactions_dialog, null);
+                    builder.setView(view);
+                    builder.setPositiveButton("Import", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            EditText editText = view.findViewById(R.id.url_import_dialog);
+                            String url = editText.getText().toString();
 
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("url", url);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("url", url);
 
-                        Message message = Message.obtain(null, 1);
-                        message.setData(bundle);
+                            Message message = Message.obtain(null, 1);
+                            message.setData(bundle);
 
-                        try {
-                            messenger.send(message);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+                            try {
+                                messenger.send(message);
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                });
-                dialog = builder.create();
-                dialog.show();
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+                    dialog = builder.create();
+                    dialog.show();
+                } else {
+                    Toast.makeText(this, "Connect to the Internet first.", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.export_transactions:
-                view = inflater.inflate(R.layout.export_transactions_dialog, null);
-                builder.setView(view);
-                builder.setPositiveButton("Export", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        EditText editText = view.findViewById(R.id.url_export_dialog);
-                        String url = editText.getText().toString();
+                if (networkConnected) {
+                    view = inflater.inflate(R.layout.export_transactions_dialog, null);
+                    builder.setView(view);
+                    builder.setPositiveButton("Export", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            EditText editText = view.findViewById(R.id.url_export_dialog);
+                            String url = editText.getText().toString();
 
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("url", url);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("url", url);
 
-                        Message message = Message.obtain(null, 2);
-                        message.setData(bundle);
+                            Message message = Message.obtain(null, 2);
+                            message.setData(bundle);
 
-                        try {
-                            messenger.send(message);
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+                            try {
+                                messenger.send(message);
+                            } catch (RemoteException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                });
-                dialog = builder.create();
-                dialog.show();
+                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+                    dialog = builder.create();
+                    dialog.show();
+                } else {
+                    Toast.makeText(this, "Connect to the Internet first.", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

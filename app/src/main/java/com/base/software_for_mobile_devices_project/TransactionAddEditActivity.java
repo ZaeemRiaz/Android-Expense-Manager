@@ -192,7 +192,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
     }
 
     private void updateView() {
-        //TODO: removes text from EditText, priority of view or stored
+        // TODO: removes text from EditText, priority of view or stored
         TextView expenseDateTextView = findViewById(R.id.date_text_view_expense);
         TextView expenseTimeTextView = findViewById(R.id.time_text_view_expense);
 //        EditText expenseAmountEditText = findViewById(R.id.amount_edit_text_expense);
@@ -221,7 +221,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         String text = expenseAmountEditText.getText().toString();
         if (!text.isEmpty()) {
             try {
-                Double val = Double.parseDouble(text);
+                double val = Double.parseDouble(text);
                 val *= -1;
                 transaction.setAmount(val);
             } catch (Exception e) {

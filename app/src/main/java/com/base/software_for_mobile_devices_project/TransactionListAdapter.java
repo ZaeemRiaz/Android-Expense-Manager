@@ -3,7 +3,6 @@ package com.base.software_for_mobile_devices_project;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // TODO: init variables
+        // TODO: init variables; the date and time should be set to current datetime when activity first opened
 
         TextView description;
         TextView date;
