@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 
 public class TransactionProvider extends ContentProvider {
     private static final String TAG = "=== TransactionProvider ===";
-    private static final String PROVIDER_NAME = "com.smd_assignment1.transactionprovider";
+    private static final String PROVIDER_NAME = "com.software_for_mobile_devices_project.transactionprovider";
     private static final String URL = "content://" + PROVIDER_NAME + "/transaction";
     static final Uri CONTENT_URI = Uri.parse(URL);
     private static UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);

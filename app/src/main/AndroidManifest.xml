@@ -26,7 +26,7 @@
 
         <provider
             android:name="TransactionProvider"
-            android:authorities="com.smd_assignment1.transactionprovider"
+            android:authorities="com.software_for_mobile_devices_project.transactionprovider"
             android:exported="true" />
     </application>
 
