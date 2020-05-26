@@ -181,7 +181,7 @@ public class TransactionListActivity extends AppCompatActivity {
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            finish();
+                            // do nothing
                         }
                     });
                     dialog = builder.create();
@@ -214,7 +214,7 @@ public class TransactionListActivity extends AppCompatActivity {
                         }
                     }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            finish();
+                            // do nothing
                         }
                     });
                     dialog = builder.create();
