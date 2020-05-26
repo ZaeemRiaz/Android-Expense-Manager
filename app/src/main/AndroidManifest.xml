@@ -12,7 +12,7 @@
         android:usesCleartextTraffic="true">
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5561935009986341~4375008177"/>
+            android:value="ca-app-pub-5561935009986341~4375008177" />
 
         <activity android:name=".TransactionListActivity">
             <intent-filter>
@@ -28,6 +28,9 @@
             android:name="TransactionProvider"
             android:authorities="com.base.software_for_mobile_devices_project.transactionprovider"
             android:exported="true" />
+        <service
+            android:name=".DataSyncService"
+            android:process="com.base.software_for_mobile_devices_project.service" />
     </application>
 
 </manifest>

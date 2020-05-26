@@ -60,12 +60,11 @@ public class Transaction implements Serializable, Persistable {
         return sdf.format(date);
     }
 
-    public void setDate(String date, String format) {
+    void setDate(String date, String format) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
             this.date = sdf.parse(date);
         } catch (ParseException e) {
-
             Log.w(TAG, "setDate: ", e);
         }
     }
@@ -74,7 +73,7 @@ public class Transaction implements Serializable, Persistable {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -82,11 +81,11 @@ public class Transaction implements Serializable, Persistable {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
-    public ContentValues getContentValues() {
+    ContentValues getContentValues() {
         ContentValues values = new ContentValues();
         values.put(TransactionDbHelper.id, id);
         values.put(TransactionDbHelper.date, getDate("yyyy-MM-dd hh:mm:ss"));

@@ -10,4 +10,7 @@
     <string name="description">Description:</string>
     <string name="save">Save</string>
     <string name="add_transaction">Add Transaction</string>
+    <string name="import_transactions">Import Transactions</string>
+    <string name="export_transactions">Export Transactions</string>
+    <string name="enter_url_here">Enter URL here</string>
 </resources>

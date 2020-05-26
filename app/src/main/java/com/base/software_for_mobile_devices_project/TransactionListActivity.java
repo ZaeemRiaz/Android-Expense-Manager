@@ -1,13 +1,25 @@
 package com.base.software_for_mobile_devices_project;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +37,35 @@ import java.util.List;
 public class TransactionListActivity extends AppCompatActivity {
 
     private static final String TAG = "=== TransactionListActivity ===";
+    private Messenger messenger;
+    private boolean bound = false;
     private List<Transaction> transactions = new ArrayList<>();
     private TransactionListAdapter adapter;
     private AdView mAdView;
+    private ServiceConnection connection = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName className, IBinder binder) {
+            messenger = new Messenger(binder);
+            bound = true;
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            bound = false;
+        }
+    };
+
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, DataSyncService.class);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
+    }
+
+    protected void onStop() {
+        super.onStop();
+        if (bound) {
+            unbindService(connection);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,12 +137,76 @@ public class TransactionListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.add_transaction) {
-            Intent intent = new Intent(getApplicationContext(), TransactionAddEditActivity.class);
-            startActivity(intent);
-            return true;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View view;
+        AlertDialog dialog;
+        switch (item.getItemId()) {
+            case R.id.add_transaction:
+                Intent intent = new Intent(getApplicationContext(), TransactionAddEditActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.import_transactions:
+                view = inflater.inflate(R.layout.import_transactions_dialog, null);
+                builder.setView(view);
+                builder.setPositiveButton("Import", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        EditText editText = view.findViewById(R.id.url_import_dialog);
+                        String url = editText.getText().toString();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("url", url);
+
+                        Message message = Message.obtain(null, 1);
+                        message.setData(bundle);
+
+                        try {
+                            messenger.send(message);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+                dialog = builder.create();
+                dialog.show();
+                return true;
+            case R.id.export_transactions:
+                view = inflater.inflate(R.layout.export_transactions_dialog, null);
+                builder.setView(view);
+                builder.setPositiveButton("Export", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        EditText editText = view.findViewById(R.id.url_export_dialog);
+                        String url = editText.getText().toString();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("url", url);
+
+                        Message message = Message.obtain(null, 2);
+                        message.setData(bundle);
+
+                        try {
+                            messenger.send(message);
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+                dialog = builder.create();
+                dialog.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
