@@ -1,0 +1,38 @@
+//Project-level build.gradle (<project>/build.gradle): 
+buildscript {
+  repositories {
+    // Check that you have the following line (if not, add it):
+    google()  // Google's Maven repository
+  }
+  dependencies {
+    ...
+    // Add this line
+    classpath 'com.google.gms:google-services:4.3.3'
+  }
+}
+
+allprojects {
+  ...
+  repositories {
+    // Check that you have the following line (if not, add it):
+    google()  // Google's Maven repository
+    ...
+  }
+}
+
+//App-level build.gradle (<project>/<app-module>/build.gradle):
+apply plugin: 'com.android.application'
+// Add this line
+apply plugin: 'com.google.gms.google-services'
+
+dependencies {
+  // add the Firebase SDK for Google Analytics
+  implementation 'com.google.firebase:firebase-analytics:17.2.2'
+  // add SDKs for any other desired Firebase products
+  // https://firebase.google.com/docs/android/setup#available-libraries
+}
+
+Admob
+App id: ca-app-pub-5561935009986341~4375008177
+Test Banner Ad id: ca-app-pub-3940256099942544/6300978111
+Banner Ad id: ca-app-pub-5561935009986341/5883530968

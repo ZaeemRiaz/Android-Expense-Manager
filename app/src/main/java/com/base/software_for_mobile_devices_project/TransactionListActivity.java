@@ -9,6 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +24,7 @@ public class TransactionListActivity extends AppCompatActivity {
     private static final String TAG = "=== TransactionListActivity ===";
     private List<Transaction> transactions = new ArrayList<>();
     private TransactionListAdapter adapter;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,16 @@ public class TransactionListActivity extends AppCompatActivity {
 
 //        initTransactions();
         initRecyclerView();
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
     }
 
     private void initTransactions() {
