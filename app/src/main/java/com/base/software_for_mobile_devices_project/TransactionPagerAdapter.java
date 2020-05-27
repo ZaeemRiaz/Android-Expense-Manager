@@ -8,10 +8,12 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class TransactionPagerAdapter extends FragmentStatePagerAdapter {
     private int noOfTabs;
+    private Transaction transaction;
 
-    TransactionPagerAdapter(@NonNull FragmentManager fragmentManager, int noOfTabs) {
+    TransactionPagerAdapter(@NonNull FragmentManager fragmentManager, int noOfTabs, Transaction transaction) {
         super(fragmentManager);
         this.noOfTabs = noOfTabs;
+        this.transaction = transaction;
     }
 
     @Nullable
@@ -32,9 +34,9 @@ public class TransactionPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new ExpenseFragment();
+                return new ExpenseFragment(transaction);
             case 1:
-                return new IncomeFragment();
+                return new IncomeFragment(transaction);
             default:
                 return null;
         }

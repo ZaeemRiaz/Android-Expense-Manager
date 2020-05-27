@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,7 +16,8 @@ public class ExpenseFragment extends Fragment {
     private Transaction transaction;
     private View view;
 
-    public ExpenseFragment() {
+    public ExpenseFragment(Transaction transaction) {
+        this.transaction = transaction;
     }
 
     @Override
@@ -33,17 +36,20 @@ public class ExpenseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
 
-        // Initialise views
-//        TextView expenseDateTextView = view.findViewById(R.id.date_text_view_expense);
-//        TextView expenseTimeTextView = view.findViewById(R.id.time_text_view_expense);
-//        EditText expenseAmountEditText = view.findViewById(R.id.amount_edit_text_expense);
-//        EditText expenseDescriptionEditText = view.findViewById(R.id.description_edit_text_expense);
-//
-//        expenseDateTextView.setText(transaction.getDate("dd-MM-yyyy"));
-//        expenseTimeTextView.setText(transaction.getDate("hh:mm"));
-//        expenseAmountEditText.setText(String.valueOf(transaction.getAmount()));
-//        expenseDescriptionEditText.setText(transaction.getDescription());
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView expenseDateTextView = view.findViewById(R.id.date_text_view_expense);
+        TextView expenseTimeTextView = view.findViewById(R.id.time_text_view_expense);
+        EditText expenseAmountEditText = view.findViewById(R.id.amount_edit_text_expense);
+        EditText expenseDescriptionEditText = view.findViewById(R.id.description_edit_text_expense);
+
+        expenseDateTextView.setText(transaction.getDate("dd-MM-yyyy"));
+        expenseTimeTextView.setText(transaction.getDate("hh:mm"));
+        expenseAmountEditText.setText(String.valueOf(transaction.getAmount()));
+        expenseDescriptionEditText.setText(transaction.getDescription());
     }
 
     public void updateTransaction(Transaction transaction) {

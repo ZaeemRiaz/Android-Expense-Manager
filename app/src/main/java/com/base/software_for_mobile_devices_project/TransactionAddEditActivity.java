@@ -82,21 +82,17 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         final TabLayout tabLayout = findViewById(R.id.tabs);
 
         TransactionPagerAdapter transactionPagerAdapter = new TransactionPagerAdapter(
-                getSupportFragmentManager(), tabLayout.getTabCount());
+                getSupportFragmentManager(), tabLayout.getTabCount(), transaction);
 
         viewPager.setAdapter(transactionPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setupWithViewPager(viewPager);
 
-        // If editing expense
-        if (edit && transaction.getAmount() < 0)
-            transaction.setAmount(transaction.getAmount() * -1);
-
         // If editing income
         if (edit && transaction.getAmount() > 0)
             tabLayout.getTabAt(1).select();
-        else
-            tabLayout.getTabAt(0).select();
+        else if (edit && transaction.getAmount() < 0)
+            transaction.setAmount(transaction.getAmount() * -1);
 
         // Banner Ad
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -114,7 +110,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tabLayout.getSelectedTabPosition() == 0 ){
                     Log.d(TAG, "onTabSelected: Tab 0");
-//                    ((ExpenseFragment)page).setTransaction(transaction);
+
                     TransactionPagerAdapter adapter = (TransactionPagerAdapter)viewPager.getAdapter();
                     ExpenseFragment fragment = (ExpenseFragment)adapter.getItem(0);
                     fragment.updateTransaction(transaction);
