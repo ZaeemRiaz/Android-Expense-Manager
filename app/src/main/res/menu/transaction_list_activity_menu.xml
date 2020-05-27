@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/refresh_list"
+        android:icon="@drawable/ic_refresh_24dp"
+        android:title="@string/refresh_list"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/add_transaction"
         android:icon="@drawable/ic_add_circle_white_24dp"
         android:title="@string/add_transaction"

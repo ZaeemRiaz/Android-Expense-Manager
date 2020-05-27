@@ -44,7 +44,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.description.setText(transactions.get(position).getDescription());
-        viewHolder.date.setText(transactions.get(position).getDate("dd-MM-yyyy hh:mm:ss"));
+        viewHolder.date.setText(transactions.get(position).getDate("dd MMM yyyy"));
         viewHolder.amount.setText(String.valueOf(transactions.get(position).getAmount()));
 
         if (transactions.get(position).getAmount() >= 0) {
@@ -68,8 +68,6 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // TODO: init variables; the date and time should be set to current datetime when activity first opened
-
         TextView description;
         TextView date;
         TextView amount;
@@ -83,7 +81,4 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             button = itemView.findViewById(R.id.button_item_transaction_list);
         }
     }
-
-
-
 }

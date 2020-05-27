@@ -13,4 +13,5 @@
     <string name="import_transactions">Import Transactions</string>
     <string name="export_transactions">Export Transactions</string>
     <string name="enter_url_here">Enter URL here</string>
+    <string name="refresh_list">Refresh List</string>
 </resources>

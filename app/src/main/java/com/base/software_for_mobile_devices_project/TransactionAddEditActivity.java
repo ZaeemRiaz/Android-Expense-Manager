@@ -130,83 +130,9 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                // do nothing
             }
         });
-
-
-//        EditText amountExpense = findViewById(R.id.amount_edit_text_expense);
-//        EditText amountIncome = findViewById(R.id.amount_edit_text_income);
-//        EditText descriptionExpense = findViewById(R.id.description_edit_text_expense);
-//        EditText descriptionIncome = findViewById(R.id.description_edit_text_income);
-//
-//        amountExpense.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                //do nothing
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                transaction.setAmount(Double.parseDouble(s.toString()));
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                updateView();
-//            }
-//        });
-//        amountIncome.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                //do nothing
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                transaction.setAmount(Double.parseDouble(s.toString()));
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                updateView();
-//            }
-//        });
-//        descriptionExpense.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                //do nothing
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                transaction.setDescription(s.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                updateView();
-//            }
-//        });
-//        descriptionIncome.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                //do nothing
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                transaction.setDescription(s.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                updateView();
-//            }
-//        });
-//
-//        updateView();
-
     }
 
     public void openDatePickerDialog(View view) {
@@ -229,24 +155,17 @@ public class TransactionAddEditActivity extends AppCompatActivity {
     }
 
     private void updateView() {
-        // TODO: removes text from EditText, priority of view or stored
         TextView expenseDateTextView = findViewById(R.id.date_text_view_expense);
         TextView expenseTimeTextView = findViewById(R.id.time_text_view_expense);
-//        EditText expenseAmountEditText = findViewById(R.id.amount_edit_text_expense);
-//        EditText expenseDescriptionEditText = findViewById(R.id.description_edit_text_expense);
+
         TextView incomeDateTextView = findViewById(R.id.date_text_view_income);
         TextView incomeTimeTextView = findViewById(R.id.time_text_view_income);
-//        EditText incomeAmountEditText = findViewById(R.id.amount_edit_text_income);
-//        EditText incomeDescriptionEditText = findViewById(R.id.description_edit_text_income);
 
         expenseDateTextView.setText(transaction.getDate("dd-MM-yyyy"));
         expenseTimeTextView.setText(transaction.getDate("hh:mm"));
-//        expenseAmountEditText.setText(String.valueOf(transaction.getAmount()));
-//        expenseDescriptionEditText.setText(transaction.getDescription());
+
         incomeDateTextView.setText(transaction.getDate("dd-MM-yyyy"));
         incomeTimeTextView.setText(transaction.getDate("hh:mm"));
-//        incomeAmountEditText.setText(String.valueOf(transaction.getAmount()));
-//        incomeDescriptionEditText.setText(transaction.getDescription());
     }
 
     public void saveExpenseTransactionButton(View view) {
@@ -279,8 +198,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
                 getContentResolver().insert(
                         TransactionProvider.CONTENT_URI, transaction.getContentValues());
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.w(TAG, "saveExpenseTransactionButton: Exception", e);
         }
         Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
@@ -316,8 +234,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
                 getContentResolver().insert(
                         TransactionProvider.CONTENT_URI, transaction.getContentValues());
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Log.w(TAG, "saveExpenseTransactionButton: Exception", e);
         }
 

@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,6 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +40,8 @@ public class TransactionListActivity extends AppCompatActivity {
 
     private static final String TAG = "=== TransactionListActivity ===";
     public static boolean networkConnected = false;
-    ConnectivityReceiver receiver;
+    private ConnectivityReceiver receiver;
+    private double totalMoney;
     private Messenger messenger;
     private boolean bound = false;
     private List<Transaction> transactions = new ArrayList<>();
@@ -101,33 +102,18 @@ public class TransactionListActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private void initTransactions() {
-
-        try {
-            transactions.add(new Transaction("2020-04-01 11:12:13", 100, "first"));
-            transactions.add(new Transaction("2021-04-02 11:12:14", -200, "second"));
-            transactions.add(new Transaction("2022-04-03 11:12:15", 300, "third"));
-            transactions.add(new Transaction("2023-04-04 11:12:16", -400, "fourth"));
-            transactions.add(new Transaction("2024-04-05 11:12:17", 500, "fifth"));
-            transactions.add(new Transaction("2025-04-06 11:12:18", -600, "sixth"));
-            transactions.add(new Transaction("2026-04-07 11:12:19", 700, "seventh"));
-            transactions.add(new Transaction("2027-04-08 11:12:20", 800, "eighth"));
-        } catch (ParseException e) {
-            Log.w(TAG, "initTransactions: ", e);
-        }
-
-        PersistableCollection<Transaction> collection = new PersistableCollection<>(transactions, Transaction.class);
-        collection.save(getApplicationContext());
-    }
-
     private void readTransactions() {
         transactions.clear();
         PersistableCollection<Transaction> collection = new PersistableCollection<>(transactions, Transaction.class);
         collection.load(getApplicationContext());
+        totalMoney = 0;
         for (Transaction t : transactions) {
+            totalMoney += t.getAmount();
             if (Transaction.nextId <= t.getId())
                 Transaction.nextId = t.getId() + 1;
         }
+        TextView totalMoneyTextView = findViewById(R.id.total_money);
+        totalMoneyTextView.setText(String.format("Total: %s", totalMoney));
     }
 
     private void initRecyclerView() {
@@ -137,14 +123,6 @@ public class TransactionListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-
-//    @Override
-//    protected void onPause() {
-//        Log.d(TAG, "onPause: init");
-//        super.onPause();
-//        PersistableCollection<Transaction> collection = new PersistableCollection<Transaction>(transactions, Transaction.class);
-//        collection.save(getApplicationContext());
-//    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -159,6 +137,11 @@ public class TransactionListActivity extends AppCompatActivity {
         final View view;
         AlertDialog dialog;
         switch (item.getItemId()) {
+            case R.id.refresh_list:
+                readTransactions();
+                adapter.notifyDataSetChanged();
+                Toast.makeText(this, "List Refreshed", Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.add_transaction:
                 Intent intent = new Intent(this, TransactionAddEditActivity.class);
                 intent.putExtra("editIntent", false);
