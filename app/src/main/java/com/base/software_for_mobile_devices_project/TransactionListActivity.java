@@ -164,7 +164,6 @@ public class TransactionListActivity extends AppCompatActivity {
                             message.setData(bundle);
 
                             try {
-                                // TODO: 27/05/2020 auto refresh
                                 messenger.send(message);
                             } catch (RemoteException e) {
                                 e.printStackTrace();

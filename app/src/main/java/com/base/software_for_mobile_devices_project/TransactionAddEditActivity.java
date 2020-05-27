@@ -125,7 +125,6 @@ public class TransactionAddEditActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                // TODO: 27/05/2020 remove keyboard on unselect
             }
 
             @Override
