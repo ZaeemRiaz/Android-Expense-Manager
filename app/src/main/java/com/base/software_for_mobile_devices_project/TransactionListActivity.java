@@ -124,6 +124,11 @@ public class TransactionListActivity extends AppCompatActivity {
         transactions.clear();
         PersistableCollection<Transaction> collection = new PersistableCollection<>(transactions, Transaction.class);
         collection.load(getApplicationContext());
+        for (Transaction t : transactions) {
+            if (Transaction.nextId <= t.getId())
+                Transaction.nextId = t.getId() + 1;
+        }
+        Log.d(TAG, "readTransactions: nextid: " + Transaction.nextId);
     }
 
     private void initRecyclerView() {
@@ -177,6 +182,7 @@ public class TransactionListActivity extends AppCompatActivity {
                             message.setData(bundle);
 
                             try {
+                                // TODO: 27/05/2020 auto refresh
                                 messenger.send(message);
                             } catch (RemoteException e) {
                                 e.printStackTrace();

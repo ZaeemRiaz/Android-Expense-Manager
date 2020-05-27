@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class Transaction implements Serializable, Persistable {
     private static final String TAG = "=== Transaction ===";
-    private static int nextId = 0;
+    public static int nextId = 0;
     private int id;
     private Date date;
     private double amount;
@@ -37,6 +37,7 @@ public class Transaction implements Serializable, Persistable {
         this.date = sdf.parse(date);
         this.amount = amount;
         this.description = description;
+        Log.d(TAG, "Transaction: id: " + id + " nextId: " + nextId);
     }
 
     public int getId() {
@@ -109,11 +110,12 @@ public class Transaction implements Serializable, Persistable {
         setDate(dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.date)), "yyyy-MM-dd hh:mm:ss");
         amount = dataStore.getDouble(dataStore.getColumnIndex(TransactionDbHelper.amount));
         description = dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.description));
-
-        //update next id
-        if (nextId <= id) {
-            nextId = id + 1;
-        }
+//
+//        //update next id
+//        if (nextId <= id) {
+//            nextId = id + 1;
+//        }
+//        Log.i(TAG, "load: nextId: " + nextId);
     }
 
     public void delete(SQLiteDatabase dataStore) {

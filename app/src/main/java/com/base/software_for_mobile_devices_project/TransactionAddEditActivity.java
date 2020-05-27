@@ -267,6 +267,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         }
         transaction.setDescription(expenseDescriptionEditText.getText().toString());
 
+        // TODO: 27/05/2020 update option too
         getContentResolver().insert(
                 TransactionProvider.CONTENT_URI, transaction.getContentValues());
 

@@ -2,6 +2,8 @@ package com.base.software_for_mobile_devices_project;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.IBinder;
@@ -37,6 +39,18 @@ public class DataSyncService extends Service {
 
     private ArrayList<Transaction> parseImport(String xmlText) {
         ArrayList<Transaction> ret = new ArrayList<>();
+
+        // update nextId
+        TransactionDbHelper dbHelper = new TransactionDbHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cur = db.rawQuery("SELECT MAX(" + TransactionDbHelper.id + ") FROM " + TransactionDbHelper.transaction, null);
+        if (cur != null) {
+            cur.moveToFirst();                       // Always one row returned.
+            int id = cur.getInt(0);
+            if (Transaction.nextId <= id)
+                Transaction.nextId = id + 1;
+        }
+        Log.d(TAG, "parseImport: nextId: " + Transaction.nextId);
 
         try {
             XmlPullParser parser = Xml.newPullParser();
@@ -118,6 +132,7 @@ public class DataSyncService extends Service {
             if (!transactions.isEmpty()) {
                 for (Transaction transaction : transactions) {
                     try {
+                        Log.d(TAG, "onPostExecute: id: " + transaction.getId());
                         getContentResolver().insert(TransactionProvider.CONTENT_URI, transaction.getContentValues());
                     } catch (Exception ex) {
                         ex.printStackTrace();
