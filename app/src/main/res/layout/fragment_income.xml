@@ -126,7 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:onClick="saveIncomeTransactionButton"
-        android:text="SAVE INCOME"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="OnClick" />
 
