@@ -4,9 +4,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
@@ -40,9 +39,10 @@ import java.util.List;
 public class TransactionListActivity extends AppCompatActivity {
 
     private static final String TAG = "=== TransactionListActivity ===";
+    public static boolean networkConnected = false;
+    ConnectivityReceiver receiver;
     private Messenger messenger;
     private boolean bound = false;
-    private boolean networkConnected = false;
     private List<Transaction> transactions = new ArrayList<>();
     private TransactionListAdapter adapter;
     private AdView mAdView;
@@ -79,13 +79,10 @@ public class TransactionListActivity extends AppCompatActivity {
         //initTransactions();
         initRecyclerView();
 
-        // Check internet connection when the activity starts
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = null;
-        if (cm != null) {
-            activeNetwork = cm.getActiveNetworkInfo();
-            networkConnected = activeNetwork != null && activeNetwork.isConnected();
-        }
+        // Register Broadcast Receiver
+        IntentFilter intent = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+        receiver = new ConnectivityReceiver();
+        registerReceiver(receiver, intent);
 
         // Banner Ad
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -96,6 +93,12 @@ public class TransactionListActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adView_transaction_list);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
     private void initTransactions() {

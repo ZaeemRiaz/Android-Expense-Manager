@@ -40,7 +40,7 @@
             android:name=".DataSyncService"
             android:process="com.base.software_for_mobile_devices_project.service" />
 
-        <receiver android:name="ConnectivityReceiver">
+        <receiver android:name="ConnectivityReceiver" android:enabled="true" android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

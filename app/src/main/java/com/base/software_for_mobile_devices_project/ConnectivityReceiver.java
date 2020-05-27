@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 public class ConnectivityReceiver extends BroadcastReceiver {
     private static final String TAG = "=== ConnectivityReceiver ===";
@@ -12,7 +13,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: 5/27/2020 : Somehow update 'networkConnected' variable in TransactionListActivity
-
+        TransactionListActivity.networkConnected = checkInternet(context);
     }
 
     boolean checkInternet(Context context) {
