@@ -9,7 +9,7 @@
     tools:context=".ExpenseFragment">
 
     <LinearLayout
-        android:id="@+id/date_layout"
+        android:id="@+id/date_layout_expense"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
@@ -41,13 +41,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/time_layout"
+        android:id="@+id/time_layout_expense"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/date_layout">
+        app:layout_constraintTop_toBottomOf="@id/date_layout_expense">
 
         <TextView
             android:layout_width="wrap_content"
@@ -74,13 +74,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/amount_layout"
+        android:id="@+id/amount_layout_expense"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/time_layout">
+        app:layout_constraintTop_toBottomOf="@id/time_layout_expense">
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,13 +98,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/description_layout"
+        android:id="@+id/description_layout_expense"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/amount_layout">
+        app:layout_constraintTop_toBottomOf="@id/amount_layout_expense">
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,7 +122,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/save_button"
+        android:id="@+id/save_button_expense"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:onClick="saveExpenseTransactionButton"

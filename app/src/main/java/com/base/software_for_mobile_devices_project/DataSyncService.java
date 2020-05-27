@@ -50,7 +50,6 @@ public class DataSyncService extends Service {
             if (Transaction.nextId <= id)
                 Transaction.nextId = id + 1;
         }
-        Log.d(TAG, "parseImport: nextId: " + Transaction.nextId);
 
         try {
             XmlPullParser parser = Xml.newPullParser();

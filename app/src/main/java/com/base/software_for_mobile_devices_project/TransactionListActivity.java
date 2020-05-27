@@ -128,7 +128,6 @@ public class TransactionListActivity extends AppCompatActivity {
             if (Transaction.nextId <= t.getId())
                 Transaction.nextId = t.getId() + 1;
         }
-        Log.d(TAG, "readTransactions: nextid: " + Transaction.nextId);
     }
 
     private void initRecyclerView() {

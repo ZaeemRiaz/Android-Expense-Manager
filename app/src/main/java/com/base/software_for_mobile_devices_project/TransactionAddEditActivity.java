@@ -13,7 +13,6 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.ads.AdRequest;
@@ -52,6 +51,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
             updateView();
         }
     };
+    private Boolean edit;
     private AdView mAdView;
 
     @Override
@@ -62,7 +62,7 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         // Add or Edit
-        Boolean edit = (Boolean) intent.getSerializableExtra("editIntent");
+        edit = (Boolean) intent.getSerializableExtra("editIntent");
         Log.i(TAG, "onCreate: edit: " + edit);
         if (edit) {
             transaction = (Transaction) intent.getSerializableExtra("transactionEditIntent");
@@ -108,17 +108,17 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tabLayout.getSelectedTabPosition() == 0 ){
+                if (tabLayout.getSelectedTabPosition() == 0) {
                     Log.d(TAG, "onTabSelected: Tab 0");
 
-                    TransactionPagerAdapter adapter = (TransactionPagerAdapter)viewPager.getAdapter();
-                    ExpenseFragment fragment = (ExpenseFragment)adapter.getItem(0);
+                    TransactionPagerAdapter adapter = (TransactionPagerAdapter) viewPager.getAdapter();
+                    ExpenseFragment fragment = (ExpenseFragment) adapter.getItem(0);
                     fragment.updateTransaction(transaction);
                 }
-                if (tabLayout.getSelectedTabPosition() == 1 ){
+                if (tabLayout.getSelectedTabPosition() == 1) {
                     Log.d(TAG, "onTabSelected: Tab 1");
-                    TransactionPagerAdapter adapter = (TransactionPagerAdapter)viewPager.getAdapter();
-                    IncomeFragment fragment = (IncomeFragment)adapter.getItem(1);
+                    TransactionPagerAdapter adapter = (TransactionPagerAdapter) viewPager.getAdapter();
+                    IncomeFragment fragment = (IncomeFragment) adapter.getItem(1);
                     fragment.updateTransaction(transaction);
                 }
             }
@@ -267,10 +267,22 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         }
         transaction.setDescription(expenseDescriptionEditText.getText().toString());
 
-        // TODO: 27/05/2020 update option too
-        getContentResolver().insert(
-                TransactionProvider.CONTENT_URI, transaction.getContentValues());
 
+        Log.d(TAG, "saveExpenseTransactionButton: transaction: " + transaction.getAmount());
+        try {
+
+            if (edit) {
+                getContentResolver().update(
+                        TransactionProvider.CONTENT_URI, transaction.getContentValues(), TransactionDbHelper.id + " = ?",
+                        new String[]{String.valueOf(transaction.getId())});
+            } else {
+                getContentResolver().insert(
+                        TransactionProvider.CONTENT_URI, transaction.getContentValues());
+            }
+        }
+        catch (Exception e){
+            Log.w(TAG, "saveExpenseTransactionButton: Exception", e);
+        }
         Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
 
         finish();
@@ -287,14 +299,30 @@ public class TransactionAddEditActivity extends AppCompatActivity {
             try {
                 transaction.setAmount(Double.parseDouble(text));
             } catch (Exception e) {
-                Log.w(TAG, "saveExpenseTransactionButton: ", e);
+                Log.w(TAG, "saveIncomeTransactionButton: ", e);
             }
         }
         transaction.setDescription(incomeDescriptionEditText.getText().toString());
 
-        getContentResolver().insert(
-                TransactionProvider.CONTENT_URI, transaction.getContentValues());
+        Log.d(TAG, "saveIncomeTransactionButton: transaction: " + transaction.getAmount());
+
+        try {
+
+            if (edit) {
+                getContentResolver().update(
+                        TransactionProvider.CONTENT_URI, transaction.getContentValues(), TransactionDbHelper.id + " = ?",
+                        new String[]{String.valueOf(transaction.getId())});
+            } else {
+                getContentResolver().insert(
+                        TransactionProvider.CONTENT_URI, transaction.getContentValues());
+            }
+        }
+        catch (Exception e){
+            Log.w(TAG, "saveExpenseTransactionButton: Exception", e);
+        }
 
         Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
+
+        finish();
     }
 }

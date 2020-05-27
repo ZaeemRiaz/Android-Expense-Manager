@@ -37,7 +37,6 @@ public class Transaction implements Serializable, Persistable {
         this.date = sdf.parse(date);
         this.amount = amount;
         this.description = description;
-        Log.d(TAG, "Transaction: id: " + id + " nextId: " + nextId);
     }
 
     public int getId() {
@@ -98,14 +97,11 @@ public class Transaction implements Serializable, Persistable {
 
     @Override
     public void save(SQLiteDatabase dataStore) {
-        Log.d(TAG, "save: init");
-
         dataStore.insertWithOnConflict(TransactionDbHelper.transaction, null, getContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     @Override
     public void load(Cursor dataStore) {
-        Log.d(TAG, "load: init");
         id = dataStore.getInt(dataStore.getColumnIndex(TransactionDbHelper.id));
         setDate(dataStore.getString(dataStore.getColumnIndex(TransactionDbHelper.date)), "yyyy-MM-dd hh:mm:ss");
         amount = dataStore.getDouble(dataStore.getColumnIndex(TransactionDbHelper.amount));

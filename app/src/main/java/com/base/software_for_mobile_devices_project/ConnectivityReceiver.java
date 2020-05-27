@@ -12,7 +12,6 @@ public class ConnectivityReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: 5/27/2020 : Somehow update 'networkConnected' variable in TransactionListActivity
         TransactionListActivity.networkConnected = checkInternet(context);
     }
 

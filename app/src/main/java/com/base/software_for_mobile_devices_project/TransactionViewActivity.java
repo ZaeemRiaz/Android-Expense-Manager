@@ -61,11 +61,19 @@ public class TransactionViewActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     public void editTransactionOnClick(View view) {
         Intent intent = new Intent(this, TransactionAddEditActivity.class);
         intent.putExtra("transactionEditIntent", transaction);
         intent.putExtra("editIntent", true);
         startActivity(intent);
+
+        finish();
     }
 
     public void deleteTransactionOnClick(View view) {

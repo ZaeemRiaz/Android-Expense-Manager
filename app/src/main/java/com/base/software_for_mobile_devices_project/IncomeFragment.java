@@ -28,7 +28,7 @@ public class IncomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_expense, container, false);
+        view = inflater.inflate(R.layout.fragment_income, container, false);
         return view;
     }
 
@@ -40,10 +40,10 @@ public class IncomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        TextView expenseDateTextView = view.findViewById(R.id.date_text_view_expense);
-        TextView expenseTimeTextView = view.findViewById(R.id.time_text_view_expense);
-        EditText expenseAmountEditText = view.findViewById(R.id.amount_edit_text_expense);
-        EditText expenseDescriptionEditText = view.findViewById(R.id.description_edit_text_expense);
+        TextView expenseDateTextView = view.findViewById(R.id.date_text_view_income);
+        TextView expenseTimeTextView = view.findViewById(R.id.time_text_view_income);
+        EditText expenseAmountEditText = view.findViewById(R.id.amount_edit_text_income);
+        EditText expenseDescriptionEditText = view.findViewById(R.id.description_edit_text_income);
 
         expenseDateTextView.setText(transaction.getDate("dd-MM-yyyy"));
         expenseTimeTextView.setText(transaction.getDate("hh:mm"));
