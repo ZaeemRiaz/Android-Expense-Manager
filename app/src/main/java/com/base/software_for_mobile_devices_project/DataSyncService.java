@@ -44,11 +44,13 @@ public class DataSyncService extends Service {
             int event = parser.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
 
-                if (event == XmlPullParser.START_TAG && parser.getName().equals("student")) {
+                if (event == XmlPullParser.START_TAG && parser.getName().equals("transaction")) {
                     String date = parser.getAttributeValue(null, "date");
                     double amount = Double.parseDouble(parser.getAttributeValue(null, "amount"));
                     String description = parser.getAttributeValue(null, "description");
                     ret.add(new Transaction(date, amount, description));
+
+                    Log.i(TAG, "parseImport: date: " + date);
                 }
                 event = parser.next();
             }

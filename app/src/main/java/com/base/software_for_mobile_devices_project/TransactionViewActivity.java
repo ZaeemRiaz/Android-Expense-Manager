@@ -77,5 +77,6 @@ public class TransactionViewActivity extends AppCompatActivity {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        finish();
     }
 }

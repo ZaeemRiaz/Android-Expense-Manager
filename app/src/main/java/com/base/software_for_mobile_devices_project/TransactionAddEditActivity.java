@@ -13,6 +13,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.ads.AdRequest;
@@ -77,8 +78,8 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_add_edit);
 
         // setup fragments
-        ViewPager viewPager = findViewById(R.id.pager);
-        TabLayout tabLayout = findViewById(R.id.tabs);
+        final ViewPager viewPager = findViewById(R.id.pager);
+        final TabLayout tabLayout = findViewById(R.id.tabs);
 
         TransactionPagerAdapter transactionPagerAdapter = new TransactionPagerAdapter(
                 getSupportFragmentManager(), tabLayout.getTabCount());
@@ -86,6 +87,16 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         viewPager.setAdapter(transactionPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setupWithViewPager(viewPager);
+
+        // If editing expense
+        if (edit && transaction.getAmount() < 0)
+            transaction.setAmount(transaction.getAmount() * -1);
+
+        // If editing income
+        if (edit && transaction.getAmount() > 0)
+            tabLayout.getTabAt(1).select();
+        else
+            tabLayout.getTabAt(0).select();
 
         // Banner Ad
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -96,6 +107,36 @@ public class TransactionAddEditActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adView_transaction_add_edit);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        // Tab view listener
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tabLayout.getSelectedTabPosition() == 0 ){
+                    Log.d(TAG, "onTabSelected: Tab 0");
+//                    ((ExpenseFragment)page).setTransaction(transaction);
+                    TransactionPagerAdapter adapter = (TransactionPagerAdapter)viewPager.getAdapter();
+                    ExpenseFragment fragment = (ExpenseFragment)adapter.getItem(0);
+                    fragment.updateTransaction(transaction);
+                }
+                if (tabLayout.getSelectedTabPosition() == 1 ){
+                    Log.d(TAG, "onTabSelected: Tab 1");
+                    TransactionPagerAdapter adapter = (TransactionPagerAdapter)viewPager.getAdapter();
+                    IncomeFragment fragment = (IncomeFragment)adapter.getItem(1);
+                    fragment.updateTransaction(transaction);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // TODO: 27/05/2020 remove keyboard on unselect
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
 //        EditText amountExpense = findViewById(R.id.amount_edit_text_expense);
